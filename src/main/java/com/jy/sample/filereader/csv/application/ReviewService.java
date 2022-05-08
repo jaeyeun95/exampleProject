@@ -1,6 +1,7 @@
 package com.jy.sample.filereader.csv.application;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -31,23 +33,38 @@ public class ReviewService {
         10 이미지 경로
         11 등록날짜
     */
-    public void readReview() throws IOException, CsvValidationException {
+    public void readReview(int num) throws IOException, CsvException {
+        if (num == 3){
+            return;
+        }
         log.info("리뷰파일 읽기 시작 : {} ", LocalDate.now());
+        int number = num;
 
-        String path = "D:\\coding\\study_workspace\\sample\\src\\main\\resources\\csvfiles\\sample\\reviews1.csv";
+
+        String path = "D:\\coding\\study_workspace\\sample\\src\\main\\resources\\csvfiles\\sample\\reviews" + String.valueOf(num) + ".csv";
 
         CSVReader reader = new CSVReader(new FileReader(path));
 
-        String[] nextLine;  // csv 파일 row   ->
-
-        // 방법 1
-        while ( (nextLine = reader.readNext()) != null) {   // row가 끝날때까지 반복
-            log.info("idx : {}", nextLine[0]);
-            log.info("리뷰 번호 : {}", nextLine[1]);
-            log.info("제목 {}", nextLine[7]);
+        // 방법 1 배열로 읽기
+        String[] nextLine;
+        while ((nextLine = reader.readNext()) != null) {   // row가 끝날때까지 반복
+            log.info("idx : {} number : {}", nextLine[0], num);
+//            log.info("리뷰 번호 : {}", nextLine[1]);
+//            log.info("제목 : {}", nextLine[7]);
         }
 
+        // 방법2 한번에 List에 담기
+//        log.info("List로 읽기 ");
+//        List<String[]> lines = reader.readAll();
+//        lines.forEach(item -> log.info("lines : {}", item));
 
+//        number += 1;
+        log.info("end {}", num);
+        readReview(num + 1);
+    }
 
+    public void callReadReview() throws IOException, CsvException {
+//        int num = 1;
+        readReview(1);
     }
 }

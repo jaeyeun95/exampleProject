@@ -1,6 +1,7 @@
 package com.jy.sample.filereader.csv.scheduler;
 
 import com.jy.sample.filereader.csv.application.ReviewService;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,11 @@ public class CsvFileScheduler {
     // Method는 void 타입으로만 사용하가능하고 매개변수는 사용 불가!
     // scheduler를 사용할 class에 @Component, Method에는 @Scheduled를 추가
 //    @Scheduled(cron = "0 15 10 15 * ?", zone = "Asia/Seoul") 매월 15일 오전 10시 15분에 실행
-    @Scheduled(cron = "0 46 20 * * *", zone = "Asia/Seoul")
-    public void fileReader() throws IOException, CsvValidationException {
+    @Scheduled(cron = "0 35  22 * * *", zone = "Asia/Seoul")
+    public void fileReader() throws IOException, CsvException {
       log.info("스케줄러 실행중");
-      reviewService.readReview();
+//      reviewService.readReview();
+        reviewService.callReadReview();
     }
 
     /**
