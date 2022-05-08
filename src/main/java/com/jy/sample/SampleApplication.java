@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling
+@EnableScheduling   // scheduler 사용시 필요
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class}) // DB 연동없이 사용할 때
 public class SampleApplication {
 

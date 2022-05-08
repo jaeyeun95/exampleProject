@@ -40,8 +40,11 @@ public class ReviewService {
 
         String[] nextLine;  // csv 파일 row   ->
 
+        // 방법 1
         while ( (nextLine = reader.readNext()) != null) {   // row가 끝날때까지 반복
-
+            log.info("idx : {}", nextLine[0]);
+            log.info("리뷰 번호 : {}", nextLine[1]);
+            log.info("제목 {}", nextLine[7]);
         }
 
 
