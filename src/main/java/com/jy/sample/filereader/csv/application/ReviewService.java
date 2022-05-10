@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -81,7 +78,7 @@ public class ReviewService {
         log.info("csv파일 읽고 쓰기");
 
         String readPath = "D:\\fiiles\\csv\\test1.csv";
-        String writePath = "D:\\fiiles\\crema3.csv";
+        String writePath = "D:\\fiiles\\crema4.csv";
 
 
         CSVReader reader = new CSVReader(new FileReader(readPath));
@@ -90,8 +87,10 @@ public class ReviewService {
 
         log.info("읽어온 데이터 row : {}", lines.size());
 
-        FileWriter writer = new FileWriter(writePath);
-        StatefulBeanToCsv<Crema> beanToCsv = new StatefulBeanToCsvBuilder<Crema>(writer).build();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(writePath), "EUC-KR"));
+//        FileWriter writer = new FileWriter(writePath);
+//        StatefulBeanToCsv<Crema> beanToCsv = new StatefulBeanToCsvBuilder<Crema>(writer).build();
+        StatefulBeanToCsv<Crema> beanToCsv = new StatefulBeanToCsvBuilder<Crema>(bw).build();
 
         lines.forEach(item -> {
             try {
@@ -109,9 +108,9 @@ public class ReviewService {
             }
         });
 
-        writer.getEncoding();
 
 
-        writer.close();
+        bw.close();
+//        writer.close();
     }
 }
