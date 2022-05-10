@@ -67,4 +67,10 @@ public class ReviewService {
 //        int num = 1;
         readReview(1);
     }
+
+    public void csvReadAndWrite() {
+        log.info("csv파일 읽고 쓰기");
+
+        
+    }
 }

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -22,11 +23,16 @@ public class CsvFileScheduler {
     // Method는 void 타입으로만 사용하가능하고 매개변수는 사용 불가!
     // scheduler를 사용할 class에 @Component, Method에는 @Scheduled를 추가
 //    @Scheduled(cron = "0 15 10 15 * ?", zone = "Asia/Seoul") 매월 15일 오전 10시 15분에 실행
-    @Scheduled(cron = "0 35  22 * * *", zone = "Asia/Seoul")
+//    @Scheduled(cron = "0 35  22 * * *", zone = "Asia/Seoul")
     public void fileReader() throws IOException, CsvException {
       log.info("스케줄러 실행중");
 //      reviewService.readReview();
         reviewService.callReadReview();
+    }
+
+    @PostConstruct
+    public void csvReadAndWrite() {
+        reviewService.csvReadAndWrite();
     }
 
     /**
