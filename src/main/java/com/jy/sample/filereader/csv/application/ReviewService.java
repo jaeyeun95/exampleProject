@@ -1,7 +1,13 @@
 package com.jy.sample.filereader.csv.application;
 
+import com.jy.sample.filereader.csv.domain.Crema;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,6 +51,8 @@ public class ReviewService {
         String path = "D:\\coding\\study_workspace\\sample\\src\\main\\resources\\csvfiles\\sample\\reviews" + String.valueOf(num) + ".csv";
 
         CSVReader reader = new CSVReader(new FileReader(path));
+//        csv파일 읽을 때 헤더 스킵하기-> https://www.callicoder.com/java-read-write-csv-file-opencsv/
+//        CSVReader csvReader = new CSVReaderBuilder(new FileReader(path)).withSkipLines(1).build();
 
         // 방법 1 배열로 읽기
         String[] nextLine;
@@ -68,9 +77,41 @@ public class ReviewService {
         readReview(1);
     }
 
-    public void csvReadAndWrite() {
+    public void csvReadAndWrite() throws IOException, CsvException {
         log.info("csv파일 읽고 쓰기");
 
-        
+        String readPath = "D:\\fiiles\\csv\\test1.csv";
+        String writePath = "D:\\fiiles\\crema3.csv";
+
+
+        CSVReader reader = new CSVReader(new FileReader(readPath));
+
+        List<String[]> lines = reader.readAll();
+
+        log.info("읽어온 데이터 row : {}", lines.size());
+
+        FileWriter writer = new FileWriter(writePath);
+        StatefulBeanToCsv<Crema> beanToCsv = new StatefulBeanToCsvBuilder<Crema>(writer).build();
+
+        lines.forEach(item -> {
+            try {
+                beanToCsv.write(List.of(
+                        new Crema(item[1], item[4], item[6], item[5], item[7],
+                                item[8], item[2], item[10],
+                                item[11]
+                                )
+
+                ));
+            } catch (CsvDataTypeMismatchException e) {
+                throw new RuntimeException(e);
+            } catch (CsvRequiredFieldEmptyException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        writer.getEncoding();
+
+
+        writer.close();
     }
 }
