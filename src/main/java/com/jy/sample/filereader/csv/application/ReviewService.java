@@ -77,8 +77,10 @@ public class ReviewService {
     public void csvReadAndWrite() throws IOException, CsvException {
         log.info("csv파일 읽고 쓰기");
 
+        int KEY = 123;
+
         String readPath = "D:\\fiiles\\csv\\test1.csv";
-        String writePath = "D:\\fiiles\\crema4.csv";
+        String writePath = "D:\\fiiles\\crema5.csv";
 
 
         CSVReader reader = new CSVReader(new FileReader(readPath));

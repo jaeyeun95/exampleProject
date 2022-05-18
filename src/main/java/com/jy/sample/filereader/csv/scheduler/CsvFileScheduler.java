@@ -30,7 +30,7 @@ public class CsvFileScheduler {
         reviewService.callReadReview();
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void csvReadAndWrite() throws IOException, CsvException {
         reviewService.csvReadAndWrite();
     }
