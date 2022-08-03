@@ -1,7 +1,7 @@
 # local, dev, prd 용도별로
 
-server:
-  port: 8888
+#server:
+#  port: 8888
 
 # jpa 관련 설정
 spring:
